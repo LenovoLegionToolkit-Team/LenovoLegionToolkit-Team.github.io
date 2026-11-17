@@ -43,11 +43,12 @@
 
       <nav class="nav-links">
         <a href="#features">Features</a>
-        <a href="#comparison">Vantage Comparison</a>
+        <a href="#comparison">OEM Comparison</a>
         <a href="#compatibility">Compatibility</a>
         <a href="#ecosystem">Ecosystem</a>
+        <a href="#support">Support</a>
         <a href="#faq">FAQ</a>
-        <a href="wiki/">User Wiki</a>
+        <a href="wiki/">Wiki</a>
         <a href="https://discord.gg/TB3ER8ZVdt" target="_blank" rel="noopener">Discord</a>
         <a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit" target="_blank" rel="noopener">GitHub</a>
       </nav>
@@ -247,14 +248,14 @@
       </div>
     </section>
 
-    <!-- Vantage vs LLT Comparison -->
+    <!-- OEM Suites vs LLT Comparison -->
     <section class="section" id="comparison">
       <div class="container">
         
         <div class="section-header">
           <div class="section-tag">Architecture Comparison</div>
-          <h2>Toolkit vs. Lenovo Vantage</h2>
-          <p>Architectural differences between vendor background services and an open-source desktop utility.</p>
+          <h2>Toolkit vs. Lenovo OEM Software Suites</h2>
+          <p>Architectural differences between official Lenovo suites (Lenovo Vantage, Legion Zone, Legion Space, Lenovo Hotkeys) and a lightweight open-source utility.</p>
         </div>
 
         <div class="comparison-card">
@@ -263,39 +264,39 @@
               <tr>
                 <th>Characteristic</th>
                 <th class="highlight">Lenovo Legion Toolkit</th>
-                <th>Lenovo Vantage</th>
+                <th>Lenovo OEM Suites (Vantage / Zone / Space / Hotkeys)</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Background Services</td>
                 <td class="highlight"><span class="status-badge status-good">0 Services</span></td>
-                <td><span class="status-badge status-bad">3 Components (Vantage App, Service, System Interface Foundation)</span></td>
+                <td><span class="status-badge status-bad">Multiple persistent background daemons and driver helper services</span></td>
               </tr>
               <tr>
                 <td>Telemetry and Tracking</td>
                 <td class="highlight"><span class="status-badge status-good">None (Zero Telemetry)</span></td>
-                <td><span class="status-badge status-bad">Enabled telemetry and user analytics</span></td>
+                <td><span class="status-badge status-bad">Background analytics and telemetry services enabled</span></td>
               </tr>
               <tr>
                 <td>Background Resource Usage</td>
                 <td class="highlight"><span class="status-badge status-good">Virtually no CPU when idle</span></td>
-                <td><span class="status-badge status-bad">Multiple persistent background service daemons</span></td>
+                <td><span class="status-badge status-bad">Persistent background CPU and memory overhead across suites</span></td>
               </tr>
               <tr>
-                <td>Service Management</td>
-                <td class="highlight"><span class="status-badge status-good">Built-in option to disable Vantage services without uninstalling</span></td>
-                <td><span class="status-badge status-bad">Requires manual service manipulation or complete uninstallation</span></td>
+                <td>Software Conflict Control</td>
+                <td class="highlight"><span class="status-badge status-good">Built-in option to disable Vantage, Legion Zone, Legion Space, and Hotkeys</span></td>
+                <td><span class="status-badge status-bad">Requires manual service manipulation or uninstallation to resolve conflicts</span></td>
               </tr>
               <tr>
                 <td>Command-Line Interface</td>
                 <td class="highlight"><span class="status-badge status-good">Full CLI support via llt.exe</span></td>
-                <td><span class="status-badge status-bad">No command-line interface</span></td>
+                <td><span class="status-badge status-bad">No command-line interface provided</span></td>
               </tr>
               <tr>
                 <td>Promotional Content</td>
                 <td class="highlight"><span class="status-badge status-good">None</span></td>
-                <td><span class="status-badge status-bad">Marketing banners, subscription promotions, and third-party offers</span></td>
+                <td><span class="status-badge status-bad">Marketing banners, subscription promotions, and third-party partner offers</span></td>
               </tr>
               <tr>
                 <td>License Model</td>
@@ -465,6 +466,52 @@
       </div>
     </section>
 
+    <!-- Support Maintainers Section -->
+    <section class="section" id="support">
+      <div class="container">
+        
+        <div class="section-header">
+          <div class="section-tag">Project Sustainability</div>
+          <h2>Support the Maintainers</h2>
+          <p>Lenovo Legion Toolkit is free, open source, and actively maintained by Dr. Skinner and Kaguya. If this tool is useful to you, consider supporting their work.</p>
+        </div>
+
+        <div class="support-grid">
+          
+          <div class="support-card">
+            <div>
+              <h4>Dr. Skinner</h4>
+              <div class="support-card-role">Core Maintainer & Developer</div>
+              <p>Active maintenance, reverse engineering, hardware compatibility testing, and bug fixes across supported Lenovo models.</p>
+            </div>
+            <div class="support-buttons">
+              <a href="https://github.com/sponsors/Metanome" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">
+                GitHub Sponsors
+              </a>
+              <a href="https://buymeacoffee.com/metanome" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">
+                Buy Me a Coffee
+              </a>
+            </div>
+          </div>
+
+          <div class="support-card">
+            <div>
+              <h4>Kaguya</h4>
+              <div class="support-card-role">Core Maintainer & Developer</div>
+              <p>Active development, Embedded Controller feature implementation, platform feature integration, and community releases.</p>
+            </div>
+            <div class="support-buttons">
+              <a href="https://ifdian.net/a/XKaguya" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">
+                Sponsor on Ifdian
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
     <!-- FAQ Accordion -->
     <section class="section" id="faq">
       <div class="container">
@@ -559,8 +606,10 @@
             <h5>Navigation</h5>
             <ul>
               <li><a href="#features">Features</a></li>
-              <li><a href="#comparison">Vantage Comparison</a></li>
+              <li><a href="#comparison">OEM Comparison</a></li>
               <li><a href="#compatibility">Compatibility</a></li>
+              <li><a href="#ecosystem">Ecosystem</a></li>
+              <li><a href="#support">Support</a></li>
               <li><a href="#faq">FAQ</a></li>
             </ul>
           </div>
