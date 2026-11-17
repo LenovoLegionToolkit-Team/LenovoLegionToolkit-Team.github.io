@@ -657,6 +657,18 @@
             </div>
           </div>
 
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              <span>Why does the installer fail with "Error 5: Access is denied"?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>That message comes from the installer bootstrap, not from Lenovo Legion Toolkit. Setup unpacks its own files into a temporary folder under <code>%LOCALAPPDATA%\Temp</code> named like <code>is-XXXXX.tmp</code> before any application code runs, so the error means Windows refused to create that folder. Copy the installer to a plain local folder such as your Downloads folder (<code>%USERPROFILE%\Downloads</code>) and run it again, and confirm that <code>%LOCALAPPDATA%\Temp</code> exists, that your account can create a folder inside it, and that security software is not blocking writes there.</p>
+            </div>
+          </div>
+
         </div>
 
       </div>
