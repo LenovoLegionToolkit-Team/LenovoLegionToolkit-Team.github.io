@@ -75,6 +75,14 @@
       </div>
 
       <div class="sidebar-section">
+        <div class="sidebar-title">Ecosystem & Repositories</div>
+        <ul class="sidebar-menu">
+          <li><a href="#ecosystem-repos" class="sidebar-link">Organization Repositories</a></li>
+          <li><a href="#plugins-extensibility" class="sidebar-link">Plugins & Extensibility</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
         <div class="sidebar-title">Troubleshooting</div>
         <ul class="sidebar-menu">
           <li><a href="#antivirus" class="sidebar-link">Security Alerts & Signing</a></li>
@@ -415,6 +423,88 @@ llt quickAction "Disable dGPU"</code>
             </tr>
           </tbody>
         </table>
+      </section>
+
+      <!-- Organization Repositories -->
+      <section id="ecosystem-repos">
+        <h2>Organization Repositories & Role in LLT</h2>
+        <p>
+          The LenovoLegionToolkit-Team organization maintains several focused open-source repositories that provide the underlying hardware abstractions, telemetry interfaces, and extension mechanisms for the main application.
+        </p>
+
+        <table class="wiki-table">
+          <thead>
+            <tr>
+              <th>Repository</th>
+              <th>Primary Role</th>
+              <th>Integration in Lenovo Legion Toolkit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit" target="_blank" rel="noopener"><strong>LenovoLegionToolkit</strong></a></td>
+              <td>Main Desktop Application</td>
+              <td>Host WPF application, user interface, Embedded Controller (EC) drivers, automation processor, and tray coordinator.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Plugins" target="_blank" rel="noopener"><strong>LenovoLegionToolkit-Plugins</strong></a></td>
+              <td>Modular Plugin Library</td>
+              <td>Provides DLL-based extension interfaces allowing modular capabilities (such as custom fan curve extensions and integrations) without altering core codebase.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/HarmonyBridge" target="_blank" rel="noopener"><strong>HarmonyBridge</strong></a></td>
+              <td>Runtime Method Patching</td>
+              <td>Provides non-intrusive runtime method patching for advanced hook workflows and internal controller interception.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/LibreHardwareMonitor" target="_blank" rel="noopener"><strong>LibreHardwareMonitor</strong></a></td>
+              <td>Hardware Sensor Telemetry</td>
+              <td>Specialized fork providing low-level hardware sensor polling for CPU, GPU, memory, and PCH temperatures, power limits, and fan RPM readouts.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/NvAPIWrapper" target="_blank" rel="noopener"><strong>NvAPIWrapper</strong></a></td>
+              <td>NVIDIA Hardware Control</td>
+              <td>Managed .NET wrapper for the NVIDIA API, powering GPU clock offsets, TGP power targets, P-state management, and discrete GPU power-down verification.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/WindowsDisplayAPI" target="_blank" rel="noopener"><strong>WindowsDisplayAPI</strong></a></td>
+              <td>Windows CCD Display Control</td>
+              <td>Managed .NET wrapper for Windows Connecting and Configuring Displays (CCD) APIs, handling dynamic refresh rate toggling, resolution scaling, and display topologies.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/PresentMonFps" target="_blank" rel="noopener"><strong>PresentMonFps</strong></a></td>
+              <td>Frame Rate Metrics Engine</td>
+              <td>Managed .NET wrapper for Intel PresentMon, capturing ETW presentation events to calculate real-time framerate and frame-time data for the On-Screen Display (OSD).</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/ZenStates-Core" target="_blank" rel="noopener"><strong>ZenStates-Core</strong></a></td>
+              <td>AMD Platform Control</td>
+              <td>Low-level register interop library providing P-state and power state communication on AMD Ryzen based laptops.</td>
+            </tr>
+            <tr>
+              <td><a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Team.github.io" target="_blank" rel="noopener"><strong>LenovoLegionToolkit-Team.github.io</strong></a></td>
+              <td>Documentation & Web Portal</td>
+              <td>Hosts the public showcase landing page, user manual, and technical wiki documentation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Plugins & Extensibility -->
+      <section id="plugins-extensibility">
+        <h2>Plugins & Extensibility</h2>
+        <p>
+          The toolkit supports a plugin architecture through the <code>LenovoLegionToolkit-Plugins</code> repository. Plugins are compiled as independent <code>.dll</code> assemblies placed in the application's plugin directory.
+        </p>
+        <p>
+          This modular architecture allows contributors to develop specialized fan curve algorithms, third-party lighting integrations, or custom hardware monitors without recompiling or destabilizing the core application.
+        </p>
+        <div class="callout note">
+          <div class="callout-title">Developing Plugins</div>
+          <p>
+            Plugin development guidelines, interfaces, and sample implementations are maintained in the <a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Plugins" target="_blank" rel="noopener" style="color: var(--accent-red); font-weight: 600;">LenovoLegionToolkit-Plugins</a> repository.
+          </p>
+        </div>
       </section>
 
       <!-- Security Alerts -->

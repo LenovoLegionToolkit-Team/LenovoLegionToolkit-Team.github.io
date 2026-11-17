@@ -45,6 +45,7 @@
         <a href="#features">Features</a>
         <a href="#comparison">Vantage Comparison</a>
         <a href="#compatibility">Compatibility</a>
+        <a href="#ecosystem">Ecosystem</a>
         <a href="#faq">FAQ</a>
         <a href="wiki/">User Wiki</a>
         <a href="https://discord.gg/TB3ER8ZVdt" target="_blank" rel="noopener">Discord</a>
@@ -349,6 +350,114 @@
               <li>ThinkBook (supported via experimental ITS driver flag)</li>
               <li>YOGA and XiaoXin variants (supported features vary by model)</li>
             </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Ecosystem Section -->
+    <section class="section" id="ecosystem">
+      <div class="container">
+        
+        <div class="section-header">
+          <div class="section-tag">Modular Architecture</div>
+          <h2>Organization Ecosystem & Libraries</h2>
+          <p>Lenovo Legion Toolkit is supported by a modular ecosystem of dedicated, maintained .NET libraries and companion repositories.</p>
+        </div>
+
+        <div class="ecosystem-grid">
+          
+          <div class="ecosystem-card">
+            <div>
+              <div class="ecosystem-card-header">
+                <div class="ecosystem-card-tag">Plugin Framework</div>
+                <h4>LenovoLegionToolkit-Plugins</h4>
+              </div>
+              <p>Modular DLL-based plugin library for extending toolkit features with custom fan curve algorithms, third-party integrations, and community extensions.</p>
+            </div>
+            <a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Plugins" class="ecosystem-card-link" target="_blank" rel="noopener">
+              View Repository &rarr;
+            </a>
+          </div>
+
+          <div class="ecosystem-card">
+            <div>
+              <div class="ecosystem-card-header">
+                <div class="ecosystem-card-tag">Runtime Patching</div>
+                <h4>HarmonyBridge</h4>
+              </div>
+              <p>Plugin module providing non-intrusive runtime method patching capabilities for advanced runtime hooks into toolkit logic.</p>
+            </div>
+            <a href="https://github.com/LenovoLegionToolkit-Team/HarmonyBridge" class="ecosystem-card-link" target="_blank" rel="noopener">
+              View Repository &rarr;
+            </a>
+          </div>
+
+          <div class="ecosystem-card">
+            <div>
+              <div class="ecosystem-card-header">
+                <div class="ecosystem-card-tag">Hardware Telemetry</div>
+                <h4>LibreHardwareMonitor</h4>
+              </div>
+              <p>Maintained fork tailored for Lenovo hardware, providing real-time sensor readouts for temperatures, fan RPMs, power limits, and clocks.</p>
+            </div>
+            <a href="https://github.com/LenovoLegionToolkit-Team/LibreHardwareMonitor" class="ecosystem-card-link" target="_blank" rel="noopener">
+              View Repository &rarr;
+            </a>
+          </div>
+
+          <div class="ecosystem-card">
+            <div>
+              <div class="ecosystem-card-header">
+                <div class="ecosystem-card-tag">GPU Architecture</div>
+                <h4>NvAPIWrapper</h4>
+              </div>
+              <p>Managed .NET wrapper for the NVIDIA API, powering discrete GPU clock offsets, TGP power target offsets, and discrete GPU state management.</p>
+            </div>
+            <a href="https://github.com/LenovoLegionToolkit-Team/NvAPIWrapper" class="ecosystem-card-link" target="_blank" rel="noopener">
+              View Repository &rarr;
+            </a>
+          </div>
+
+          <div class="ecosystem-card">
+            <div>
+              <div class="ecosystem-card-header">
+                <div class="ecosystem-card-tag">Display Topology</div>
+                <h4>WindowsDisplayAPI</h4>
+              </div>
+              <p>Managed .NET wrapper for Windows CCD display APIs, controlling refresh rate toggling, display resolution, and display overdrive.</p>
+            </div>
+            <a href="https://github.com/LenovoLegionToolkit-Team/WindowsDisplayAPI" class="ecosystem-card-link" target="_blank" rel="noopener">
+              View Repository &rarr;
+            </a>
+          </div>
+
+          <div class="ecosystem-card">
+            <div>
+              <div class="ecosystem-card-header">
+                <div class="ecosystem-card-tag">Overlay Metrics</div>
+                <h4>PresentMonFps</h4>
+              </div>
+              <p>Managed .NET wrapper for Intel PresentMon, delivering real-time frame rate and frame time metrics for the toolkit On-Screen Display (OSD).</p>
+            </div>
+            <a href="https://github.com/LenovoLegionToolkit-Team/PresentMonFps" class="ecosystem-card-link" target="_blank" rel="noopener">
+              View Repository &rarr;
+            </a>
+          </div>
+
+          <div class="ecosystem-card">
+            <div>
+              <div class="ecosystem-card-header">
+                <div class="ecosystem-card-tag">AMD Platform</div>
+                <h4>ZenStates-Core</h4>
+              </div>
+              <p>Low-level .NET library interfacing with AMD Ryzen processor registers for performance and power state evaluation.</p>
+            </div>
+            <a href="https://github.com/LenovoLegionToolkit-Team/ZenStates-Core" class="ecosystem-card-link" target="_blank" rel="noopener">
+              View Repository &rarr;
+            </a>
           </div>
 
         </div>
