@@ -34,8 +34,17 @@ function initSidebarToggle() {
 
   if (!toggleBtn || !sidebar) return;
 
+  const setOpen = (open) => {
+    sidebar.classList.toggle("open", open);
+    toggleBtn.setAttribute("aria-expanded", String(open));
+  };
+
   toggleBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("open");
+    setOpen(!sidebar.classList.contains("open"));
+  });
+
+  sidebar.querySelectorAll(".sidebar-link").forEach((link) => {
+    link.addEventListener("click", () => setOpen(false));
   });
 }
 
@@ -45,23 +54,36 @@ function initScrollHighlight() {
 
   if (sections.length === 0 || navLinks.length === 0) return;
 
-  window.addEventListener("scroll", () => {
+  let scheduled = false;
+
+  const highlight = () => {
+    scheduled = false;
+
+    const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 2;
     let currentId = "";
 
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop - 120;
-      if (window.scrollY >= sectionTop) {
-        currentId = section.getAttribute("id");
-      }
-    });
+    if (atBottom) {
+      currentId = sections[sections.length - 1].getAttribute("id");
+    } else {
+      sections.forEach((section) => {
+        if (window.scrollY >= section.offsetTop - 120) {
+          currentId = section.getAttribute("id");
+        }
+      });
+    }
 
     if (!currentId) return;
 
     navLinks.forEach((link) => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === `#${currentId}`) {
-        link.classList.add("active");
-      }
+      link.classList.toggle("active", link.getAttribute("href") === `#${currentId}`);
     });
+  };
+
+  window.addEventListener("scroll", () => {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(highlight);
   });
+
+  highlight();
 }

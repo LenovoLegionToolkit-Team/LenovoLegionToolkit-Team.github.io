@@ -20,5 +20,8 @@ https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Team.github.io
 
 - `index.html`: Main landing page markup.
 - `style.css`: Visual styles and layout definitions.
-- `script.js`: Client-side release resolution and interface interactions.
+- `script.js`: Release resolution and interface interactions.
+- `wiki/index.html`: Documentation page markup.
+- `wiki/wiki.css`: Documentation layout layered on top of `style.css`.
+- `wiki/wiki.js`: Documentation search, sidebar toggle, and section highlighting.
 - `assets/`: Static image resources and interface captures.

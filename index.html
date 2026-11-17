@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lenovo Legion Toolkit - Control Utility for Lenovo Laptops</title>
-  <meta name="description" content="A lightweight, resource-efficient desktop utility for Lenovo Legion, LOQ, and IdeaPad laptops. Replaces Lenovo Vantage with zero background services and zero telemetry.">
+  <meta name="description" content="A lightweight, resource-efficient desktop utility for Lenovo Legion, LOQ, and IdeaPad laptops. Replaces Lenovo Vantage, Legion Zone, Legion Space, and Lenovo Hotkeys with zero background services and zero telemetry.">
   
   <!-- OpenGraph Metadata -->
   <meta property="og:title" content="Lenovo Legion Toolkit (LLT)">
-  <meta property="og:description" content="Lightweight open-source control utility for Lenovo Legion, LOQ, and IdeaPad laptops. Zero background services, zero telemetry.">
+  <meta property="og:description" content="Lightweight open-source control utility for Lenovo Legion, LOQ, and IdeaPad laptops. Replaces Lenovo Vantage, Legion Zone, Legion Space, and Lenovo Hotkeys with zero background services and zero telemetry.">
   <meta property="og:image" content="assets/Main_DarkMode.png">
   <meta property="og:url" content="https://lenovolegiontoolkit-team.github.io/">
   <meta property="og:type" content="website">
@@ -33,7 +33,7 @@
         <span>Legion <span class="accent">Toolkit</span></span>
       </a>
 
-      <button class="mobile-toggle" aria-label="Toggle navigation menu">
+      <button class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primaryNavigation">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -41,7 +41,7 @@
         </svg>
       </button>
 
-      <nav class="nav-links">
+      <nav class="nav-links" id="primaryNavigation">
         <a href="#features">Features</a>
         <a href="#comparison">OEM Comparison</a>
         <a href="#compatibility">Compatibility</a>
@@ -76,8 +76,8 @@
         </h1>
 
         <p class="hero-description">
-          A dedicated Windows desktop utility created for Lenovo Legion, LOQ, IdeaPad Gaming, Slim, and Legion Go devices.
-          Replaces Lenovo Vantage, Legion Zone, and Legion Space with zero background services, zero telemetry, and direct hardware control.
+          A dedicated Windows desktop utility created for Lenovo Legion, LOQ, Legion Go, IdeaPad Gaming, Lenovo Slim, and ThinkBook devices.
+          Replaces Lenovo Vantage, Legion Zone, Legion Space, and Lenovo Hotkeys with zero background services, zero telemetry, and direct hardware control.
         </p>
 
         <div class="hero-cta">
@@ -196,7 +196,7 @@
               </svg>
             </div>
             <h3>Battery Charging Controls</h3>
-            <p>Toggle firmware Conservation Mode (60% threshold on 2021 and earlier models; 80% on 2022 and later models), Rapid Charge, Night Charge, and configurable charge start/stop thresholds on supported systems.</p>
+            <p>Switch between Normal, Rapid Charge, and firmware Conservation Mode (60% on 2021 and earlier models, 80% on 2022 and later models), enable Overnight Battery Charging, and set custom Charge Threshold start and stop percentages on supported models.</p>
           </div>
 
           <div class="feature-card">
@@ -219,7 +219,7 @@
               </svg>
             </div>
             <h3>Hybrid GPU & Display Modes</h3>
-            <p>Control GPU operating states: dGPU Only, Hybrid, Hybrid iGPU-Only (disconnects dGPU on battery), Hybrid Auto, and UMA. Manage display refresh rate, resolution, display overdrive, and Auto Color Management.</p>
+            <p>Switch GPU Working Mode between dGPU, Hybrid, Hybrid iGPU-Only, Hybrid Auto, and UMA where the firmware reports support. Manage display refresh rate, resolution, display overdrive, and Auto Color Management.</p>
           </div>
 
           <div class="feature-card">
@@ -229,7 +229,7 @@
               </svg>
             </div>
             <h3>Keyboard Lighting & Spectrum RGB</h3>
-            <p>Manage Spectrum per-key RGB, 4-Zone RGB, rear port lighting, panel logo illumination, and white backlit keyboards without proprietary suites. Compatible with Windows Dynamic Lighting.</p>
+            <p>Manage Spectrum per-key RGB, 4-zone RGB, rear port and panel logo lighting, and 1-level or 3-level white backlighting without proprietary suites. Windows Dynamic Lighting integration is available on supported keyboards through an optional startup argument.</p>
           </div>
 
           <div class="feature-card">
@@ -240,7 +240,47 @@
               </svg>
             </div>
             <h3>Actions, Macros & Smart Keys</h3>
-            <p>Automate profile adjustments based on AC power state, battery percentage, lid position, display events, Wi-Fi connectivity, or game launch. Assign custom actions to Fn Smart Keys and display on-screen indicators.</p>
+            <p>Automate profile changes from AC power state, battery percentage, lid position, display or HDR events, Wi-Fi connectivity, session lock, or game launch. Assign Quick Actions to Fn keys with Smart Keys and show notifications when a key is pressed.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="4" width="20" height="13" rx="2"></rect>
+                <path d="M6 9h4"></path>
+                <path d="M6 13h7"></path>
+                <path d="M16 9h2"></path>
+                <path d="M16 13h2"></path>
+                <line x1="9" y1="21" x2="15" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <h3>On-Screen Display & Sensors</h3>
+            <p>Overlay live readings in a compact bar or a full panel, covering CPU, GPU, memory, storage, and PCH sensors plus FPS, 1% low, and frame time. Colors react to configurable warning and critical thresholds, and the Dashboard sensor items can be rearranged.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12a9 9 0 1 1-3.5-7.1"></path>
+                <polyline points="21 3 21 9 15 9"></polyline>
+              </svg>
+            </div>
+            <h3>Driver Downloads & Updates</h3>
+            <p>Browse Lenovo driver and software packages matched to your machine type and Windows version, filter to updates only, and pick between the Lenovo Vantage and Lenovo PC Support catalogs. The toolkit updates itself from Stable, Beta, or Dev channels on a configurable schedule.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+              </svg>
+            </div>
+            <h3>Windows Integration</h3>
+            <p>Mirror the active power mode to a Windows power mode or power plan, cycle refresh rates with Fn+R while excluding rates you never use, start at login with autorun, and choose which notifications are shown for each event.</p>
           </div>
 
         </div>
@@ -338,7 +378,6 @@
             <ul>
               <li>Lenovo LOQ 15 (AMD and Intel)</li>
               <li>Lenovo LOQ 16 (AMD and Intel)</li>
-              <li>LOQ Essential and Tower configurations</li>
               <li>Power modes, battery charge controls, refresh rate switching, and backlighting</li>
             </ul>
           </div>
@@ -346,14 +385,18 @@
           <div class="device-card">
             <h4>IdeaPad Gaming & Other Devices</h4>
             <ul>
-              <li>IdeaPad Gaming 3 and 3 Pro</li>
+              <li>IdeaPad Gaming 3 series</li>
               <li>Lenovo Slim models</li>
-              <li>ThinkBook (supported via experimental ITS driver flag)</li>
-              <li>YOGA and XiaoXin variants (supported features vary by model)</li>
+              <li>ThinkBook (power modes run through Lenovo ITS Mode)</li>
+              <li>YOGA and XiaoXin variants (available features vary by model)</li>
             </ul>
           </div>
 
         </div>
+
+        <p class="section-note">
+          Lenovo desktops and laptop families outside this list are out of scope. A supported model can still lack individual features when its firmware does not report them.
+        </p>
 
       </div>
     </section>
@@ -364,7 +407,7 @@
         
         <div class="section-header">
           <div class="section-tag">Modular Architecture</div>
-          <h2>Organization Ecosystem & Libraries</h2>
+          <h2>Open Source Ecosystem & Libraries</h2>
           <p>Lenovo Legion Toolkit is supported by a modular ecosystem of dedicated, maintained .NET libraries and companion repositories.</p>
         </div>
 
@@ -389,7 +432,7 @@
                 <div class="ecosystem-card-tag">Runtime Patching</div>
                 <h4>HarmonyBridge</h4>
               </div>
-              <p>Plugin module providing non-intrusive runtime method patching capabilities for advanced runtime hooks into toolkit logic.</p>
+              <p>Plugin module that gives other plugins runtime method patching through the Harmony library.</p>
             </div>
             <a href="https://github.com/LenovoLegionToolkit-Team/HarmonyBridge" class="ecosystem-card-link" target="_blank" rel="noopener">
               View Repository &rarr;
@@ -402,7 +445,7 @@
                 <div class="ecosystem-card-tag">Hardware Telemetry</div>
                 <h4>LibreHardwareMonitor</h4>
               </div>
-              <p>Maintained fork tailored for Lenovo hardware, providing real-time sensor readouts for temperatures, fan RPMs, power limits, and clocks.</p>
+              <p>Maintained fork providing real-time sensor readouts for temperatures, fan RPMs, power limits, and clocks.</p>
             </div>
             <a href="https://github.com/LenovoLegionToolkit-Team/LibreHardwareMonitor" class="ecosystem-card-link" target="_blank" rel="noopener">
               View Repository &rarr;
@@ -415,7 +458,7 @@
                 <div class="ecosystem-card-tag">GPU Architecture</div>
                 <h4>NvAPIWrapper</h4>
               </div>
-              <p>Managed .NET wrapper for the NVIDIA API, powering discrete GPU clock offsets, TGP power target offsets, and discrete GPU state management.</p>
+              <p>Managed .NET wrapper for the NVIDIA API, powering discrete GPU clock offsets, TGP power target offsets, and discrete GPU power state checks.</p>
             </div>
             <a href="https://github.com/LenovoLegionToolkit-Team/NvAPIWrapper" class="ecosystem-card-link" target="_blank" rel="noopener">
               View Repository &rarr;
@@ -428,7 +471,7 @@
                 <div class="ecosystem-card-tag">Display Topology</div>
                 <h4>WindowsDisplayAPI</h4>
               </div>
-              <p>Managed .NET wrapper for Windows CCD display APIs, controlling refresh rate toggling, display resolution, and display overdrive.</p>
+              <p>Managed .NET wrapper for the Windows CCD display APIs, used for refresh rate switching, display resolution, and Auto Color Management.</p>
             </div>
             <a href="https://github.com/LenovoLegionToolkit-Team/WindowsDisplayAPI" class="ecosystem-card-link" target="_blank" rel="noopener">
               View Repository &rarr;
@@ -454,7 +497,7 @@
                 <div class="ecosystem-card-tag">AMD Platform</div>
                 <h4>ZenStates-Core</h4>
               </div>
-              <p>Low-level .NET library interfacing with AMD Ryzen processor registers for performance and power state evaluation.</p>
+              <p>Low-level .NET library that talks to the AMD Ryzen SMU, used for Precision Boost Overdrive, Curve Optimizer and Curve Shaper margins, and power limits.</p>
             </div>
             <a href="https://github.com/LenovoLegionToolkit-Team/ZenStates-Core" class="ecosystem-card-link" target="_blank" rel="noopener">
               View Repository &rarr;
@@ -525,19 +568,19 @@
         <div class="faq-list">
           
           <div class="faq-item">
-            <button class="faq-question">
-              <span>Do I need to uninstall Lenovo Vantage?</span>
+            <button class="faq-question" aria-expanded="false">
+              <span>Do I need to uninstall Lenovo Vantage or the other Lenovo software?</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
             <div class="faq-answer">
-              <p>You can uninstall Vantage or use the built-in option in Lenovo Legion Toolkit Settings to disable Lenovo Vantage, Legion Zone, and Lenovo Hotkeys services. Disabling them in Settings halts their background processes and avoids hardware communication conflicts without removing the applications.</p>
+              <p>No. Open Settings -> Software Control and turn off the toggles for the suites that are installed: Disable Lenovo Vantage and ImController, Disable Lenovo Hotkeys, Disable Legion Zone, and Disable Legion Space. Disabling them halts their services, scheduled tasks, and processes and avoids hardware communication conflicts without removing the applications.</p>
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="faq-question">
+            <button class="faq-question" aria-expanded="false">
               <span>Which drivers are required on a fresh Windows installation?</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -549,19 +592,19 @@
           </div>
 
           <div class="faq-item">
-            <button class="faq-question">
+            <button class="faq-question" aria-expanded="false">
               <span>Can the Conservation Mode battery threshold be customized?</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
             <div class="faq-answer">
-              <p>The standard Conservation Mode percentage is hardcoded in laptop firmware (EC) to 60% on 2021 and earlier models, or 80% on 2022 and later models. On select ThinkBook models supporting the PWRMGRV interface, custom charge start and stop thresholds can be configured.</p>
+              <p>The Conservation Mode percentage is fixed in the laptop Embedded Controller firmware at 60% on 2021 and earlier models, or 80% on 2022 and later models. Models whose Lenovo power management driver exposes the PWRMGRV charge threshold keys also get a separate Charge Threshold setting with custom start and stop percentages.</p>
             </div>
           </div>
 
           <div class="faq-item">
-            <button class="faq-question">
+            <button class="faq-question" aria-expanded="false">
               <span>Which models support custom fan curves?</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -573,14 +616,38 @@
           </div>
 
           <div class="faq-item">
-            <button class="faq-question">
+            <button class="faq-question" aria-expanded="false">
               <span>Why does security software report false positives on the installer?</span>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
             <div class="faq-answer">
-              <p>The application interacts with low-level Windows APIs (WMI, EC driver communication, keyboard hooks) which can trigger generic heuristic scanner alerts. All release installers are built publicly via GitHub Actions and verified with Authenticode signatures.</p>
+              <p>The application interacts with low-level Windows APIs (WMI, EC driver communication, keyboard hooks) which can trigger generic heuristic scanner alerts. All release installers are built publicly via GitHub Actions and signed with the project certificate, which the built-in updater validates before installing an update.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              <span>Does Lenovo Legion Toolkit need to keep running?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>Yes, for every feature that reacts to system state. The toolkit installs no background service, so power mode and power plan synchronization, Actions, macros, and the on-screen display only run while the app is active. Enable Autorun and Minimize on Close in Settings -> App Behavior so it stays available in the system tray.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              <span>Why can't I select Performance, Extreme, or Custom on battery?</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>Those modes are refused while the AC adapter is disconnected, because power limits are not applied correctly on battery power. The <code>--allow-all-power-modes-on-battery</code> startup argument removes the restriction, but settings may then be applied incorrectly and such configurations are unsupported.</p>
             </div>
           </div>
 
@@ -621,6 +688,7 @@
               <li><a href="wiki/">User Documentation (Wiki)</a></li>
               <li><a href="https://crowdin.com/project/lenovolegiontoolkit-unofficial" target="_blank" rel="noopener">Crowdin Translations</a></li>
               <li><a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit/blob/master/LICENSE" target="_blank" rel="noopener">GPL-3.0 License</a></li>
+              <li><a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit#credits" target="_blank" rel="noopener">Credits & Third-Party Libraries</a></li>
             </ul>
           </div>
 
@@ -637,7 +705,7 @@
       </div>
 
       <div class="footer-bottom">
-        <div>&copy; 2026 LenovoLegionToolkit-Team. Released under the GNU General Public License v3.0. Not affiliated with Lenovo.</div>
+        <div>&copy; <span id="copyrightYear">2026</span> LenovoLegionToolkit-Team. Released under the GNU General Public License v3.0. Not affiliated with Lenovo.</div>
         <div>Engineered for low-latency performance and hardware transparency.</div>
       </div>
 

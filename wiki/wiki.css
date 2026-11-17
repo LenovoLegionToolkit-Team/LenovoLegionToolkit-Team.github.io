@@ -102,7 +102,6 @@ aside.wiki-sidebar {
   padding: 0.55rem 0.85rem;
   color: var(--text-primary);
   font-size: 0.88rem;
-  outline: none;
   transition: border-color 0.15s ease;
 }
 
@@ -139,6 +138,7 @@ aside.wiki-sidebar {
   font-size: 0.88rem;
   font-weight: 500;
   border-radius: var(--radius-sm);
+  border-left: 2px solid transparent;
   transition: all 0.15s ease;
 }
 
@@ -159,6 +159,16 @@ article.wiki-content {
   flex: 1;
   max-width: 960px;
   padding: 2.5rem 3rem 4rem;
+}
+
+.wiki-content section a {
+  color: var(--accent-red);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.wiki-content section a:hover {
+  text-decoration: underline;
 }
 
 .breadcrumb {
@@ -233,6 +243,7 @@ article.wiki-content {
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-subtle);
   color: #FF8F8F;
+  overflow-wrap: break-word;
 }
 
 .code-block {
@@ -245,11 +256,14 @@ article.wiki-content {
 }
 
 .code-block code {
+  display: block;
   background: transparent;
   padding: 0;
   border: none;
   color: var(--text-primary);
   font-size: 0.86rem;
+  white-space: pre;
+  overflow-wrap: normal;
 }
 
 /* Callout Boxes */
@@ -303,6 +317,7 @@ article.wiki-content {
   border: 1px solid var(--border-subtle);
   text-align: left;
   font-size: 0.9rem;
+  overflow-wrap: break-word;
 }
 
 .wiki-table th {

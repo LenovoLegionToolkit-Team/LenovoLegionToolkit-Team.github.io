@@ -15,7 +15,7 @@
   <header class="wiki-header">
     <div class="wiki-header-container">
       <div class="wiki-brand-group">
-        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle navigation sidebar">
+        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle navigation sidebar" aria-expanded="false" aria-controls="wikiSidebar">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -41,9 +41,9 @@
   <div class="wiki-container">
     
     <!-- Sidebar Navigation -->
-    <aside class="wiki-sidebar">
+    <aside class="wiki-sidebar" id="wikiSidebar">
       <div class="wiki-search-box">
-        <input type="text" id="wikiSearch" class="wiki-search-input" placeholder="Search documentation...">
+        <input type="text" id="wikiSearch" class="wiki-search-input" placeholder="Search documentation..." aria-label="Search documentation">
       </div>
 
       <div class="sidebar-section">
@@ -51,7 +51,7 @@
         <ul class="sidebar-menu">
           <li><a href="#overview" class="sidebar-link active">Overview & Requirements</a></li>
           <li><a href="#installation" class="sidebar-link">Installation & Setup</a></li>
-          <li><a href="#vantage-handling" class="sidebar-link">Handling Lenovo Vantage</a></li>
+          <li><a href="#vantage-handling" class="sidebar-link">Handling Lenovo Software</a></li>
         </ul>
       </div>
 
@@ -70,8 +70,18 @@
         <div class="sidebar-title">Automation & Tools</div>
         <ul class="sidebar-menu">
           <li><a href="#actions" class="sidebar-link">Actions & Triggers</a></li>
+          <li><a href="#smart-keys" class="sidebar-link">Smart Keys & Fn Shortcuts</a></li>
+          <li><a href="#osd" class="sidebar-link">On-Screen Display & Sensors</a></li>
           <li><a href="#cli" class="sidebar-link">Command Line Interface (llt.exe)</a></li>
           <li><a href="#arguments" class="sidebar-link">CLI Arguments Reference</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Maintenance</div>
+        <ul class="sidebar-menu">
+          <li><a href="#downloads" class="sidebar-link">Downloads & Device Info</a></li>
+          <li><a href="#known-issues" class="sidebar-link">Known Hardware Caveats</a></li>
         </ul>
       </div>
 
@@ -105,16 +115,25 @@
       <section id="overview">
         <h1>Lenovo Legion Toolkit Documentation</h1>
         <p class="wiki-lead">
-          Technical reference and user manual for Lenovo Legion Toolkit (LLT), an open-source desktop utility for Lenovo gaming laptops that runs without background services or telemetry.
+          Technical reference and user manual for Lenovo Legion Toolkit (LLT), an open-source desktop utility for Lenovo gaming laptops that replaces Lenovo Vantage, Legion Zone, Legion Space, and Lenovo Hotkeys, and runs without background services or telemetry.
         </p>
 
         <h2>System Requirements</h2>
         <ul>
           <li><strong>Operating System:</strong> Windows 10 (version 19041 or higher) or Windows 11 (64-bit).</li>
-          <li><strong>Architecture:</strong> x64 native.</li>
-          <li><strong>Runtime:</strong> Microsoft .NET 9.0 Desktop Runtime.</li>
-          <li><strong>Privileges:</strong> Administrative privileges required for hardware register and WMI access.</li>
+          <li><strong>Architecture:</strong> x64 native. ARM64 is not supported.</li>
+          <li><strong>Runtime:</strong> Microsoft .NET 9.0 Desktop Runtime, installed by setup when it is missing.</li>
+          <li><strong>Privileges:</strong> Administrative privileges, required for hardware registers, drivers, and WMI access.</li>
+          <li><strong>Accounts:</strong> A single administrator account. Multi-user installations are not supported and accounts without administrator rights will not work correctly.</li>
         </ul>
+
+        <h2>Supported Devices</h2>
+        <p>
+          LLT is built for Lenovo Legion laptops and the Legion Go, together with similar devices such as LOQ, IdeaPad Gaming, Lenovo Slim, ThinkBook, YOGA, and XiaoXin, including the Chinese R-series and Y-series variants. Generations 6 (2021) through 11 (2026) are supported, and some features also work on Generation 5 (2020).
+        </p>
+        <p>
+          Lenovo desktops and laptop families outside this list are out of scope. Individual features can still be missing on a supported model when its firmware does not report the required capability.
+        </p>
 
         <div class="callout note">
           <div class="callout-title">Required Drivers on Clean Windows Installs</div>
@@ -122,7 +141,7 @@
             If Windows was installed clean from official media, ensure the following drivers are installed from Lenovo Support so that hardware communication interfaces are active:
           </p>
           <ol>
-            <li>Lenovo Energy Management (IBMPMDRV)</li>
+            <li>Lenovo Energy Management</li>
             <li>Lenovo Vantage Gaming Feature Driver</li>
           </ol>
           <p>Note: These two drivers are not required on Generation 10 and newer hardware.</p>
@@ -133,38 +152,52 @@
       <section id="installation">
         <h2>Installation & Setup</h2>
         <p>
-          Download the latest installer executable from GitHub Releases. The installer deploys the application and configures necessary dependencies.
+          Download the latest installer from GitHub Releases and run it. Setup requests administrator rights and installs to <code>C:\Program Files\LenovoLegionToolkit</code> by default. The bundled .NET Desktop Runtime is installed when it is missing.
         </p>
         <p>
-          Installing newer versions directly over an existing installation preserves all configured settings, custom fan presets, macros, and actions.
+          Installing a newer version over an existing installation preserves settings, Custom Mode presets, Actions, Quick Actions, and macros. Configuration, logs, and plugins live in <code>%LOCALAPPDATA%\LenovoLegionToolkit</code>.
         </p>
 
         <h3>Recommended Configuration</h3>
         <p>
-          Because the application does not install persistent Windows background services, it should remain active in the system tray to handle automated profile switching and hotkeys.
+          Because the application does not install a Windows background service, it has to stay running to handle automated profile switching, Fn shortcuts, macros, and the on-screen display.
         </p>
         <ul>
           <li>Open <strong>Settings -> App Behavior</strong>.</li>
-          <li>Enable <strong>Autorun</strong> (starts minimized on Windows login).</li>
-          <li>Enable <strong>Minimize on close</strong> (keeps the tray icon active when closing the main window).</li>
+          <li>Set <strong>Autorun</strong> to start minimized to the tray at login. The delayed option is available for systems that need more time before hardware is reachable.</li>
+          <li>Enable <strong>Minimize on Close</strong> so the tray icon stays available when the window is closed.</li>
         </ul>
+
+        <h3>Updating</h3>
+        <p>
+          <strong>Settings -> Updates</strong> controls the update channel (Stable, Beta, or Dev), the check frequency, and the update method. Release installers are signed with the project certificate, and the built-in updater validates that signature before installing.
+        </p>
+
+        <div class="callout tip">
+          <div class="callout-title">Package Managers</div>
+          <p>
+            If updates are managed by Scoop, WinGet, or a similar tool, start LLT with <code>--disable-update-checker</code> so the built-in updater does not compete with the package manager.
+          </p>
+        </div>
       </section>
 
-      <!-- Handling Vantage -->
+      <!-- Handling Lenovo Software -->
       <section id="vantage-handling">
-        <h2>Handling Lenovo Vantage</h2>
+        <h2>Handling Lenovo Software</h2>
         <p>
-          Running Lenovo Vantage alongside Lenovo Legion Toolkit can create hardware communication conflicts when both applications attempt to write to Embedded Controller (EC) registers simultaneously.
+          LLT replaces Lenovo Vantage, Legion Zone, Legion Space, and Lenovo Hotkeys, and running any of them alongside LLT causes conflicts. Vantage, Legion Zone, and Legion Space write to the same Embedded Controller (EC) registers, and Lenovo Hotkeys owns the Fn shortcuts. Some LLT controls also stay unavailable while their services are running.
         </p>
         <p>
-          You do not need to uninstall Lenovo Vantage. The toolkit includes a built-in software disabler:
+          Uninstalling is not required. <strong>Settings -> Software Control</strong> exposes one toggle per suite, and only the suites that are installed are listed:
         </p>
-        <ol>
-          <li>Open <strong>Settings -> Software Control</strong>.</li>
-          <li>Toggle <strong>Disable Lenovo Vantage and Lenovo Hotkeys</strong>.</li>
-        </ol>
+        <ul>
+          <li><strong>Disable Lenovo Vantage and ImController</strong></li>
+          <li><strong>Disable Lenovo Hotkeys</strong>, which hands the Fn shortcuts over to LLT.</li>
+          <li><strong>Disable Legion Zone</strong></li>
+          <li><strong>Disable Legion Space</strong></li>
+        </ul>
         <p>
-          This safely halts the background service components (Lenovo Vantage Service, System Interface Foundation) without deleting files. If you ever need Vantage, you can re-enable it from the same toggle.
+          Disabling stops the related services, scheduled tasks, startup entries, and processes without removing files. Each toggle can be reverted from the same place.
         </p>
       </section>
 
@@ -172,54 +205,62 @@
       <section id="power-modes">
         <h2>Power Modes & Custom Tuning</h2>
         <p>
-          Lenovo hardware exposes native power states that alter Embedded Controller thermal profiles and fan tables:
+          Lenovo firmware exposes native power states that change Embedded Controller thermal profiles and fan tables:
         </p>
         <table class="wiki-table">
           <thead>
             <tr>
-              <th>Internal State</th>
-              <th>Display Name</th>
-              <th>Hardware Value</th>
+              <th>Mode</th>
+              <th>Internal state</th>
+              <th>Value sent to the EC</th>
               <th>Description</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>Quiet</code></td>
               <td>Quiet</td>
-              <td>0</td>
-              <td>Lower power limits, prioritized low acoustic profile.</td>
+              <td><code>Quiet</code> = 0</td>
+              <td>1</td>
+              <td>Lower power limits with a low acoustic profile.</td>
             </tr>
             <tr>
-              <td><code>Balance</code></td>
               <td>Balance</td>
-              <td>1</td>
+              <td><code>Balance</code> = 1</td>
+              <td>2</td>
               <td>Dynamic performance scaling according to system load.</td>
             </tr>
             <tr>
-              <td><code>Performance</code></td>
               <td>Performance</td>
-              <td>2</td>
-              <td>Maximum sustained clock speeds and aggressive fan curve (requires AC adapter).</td>
+              <td><code>Performance</code> = 2</td>
+              <td>3</td>
+              <td>Maximum sustained clock speeds with an aggressive fan curve. Requires the AC adapter.</td>
             </tr>
             <tr>
-              <td><code>Extreme</code></td>
               <td>Extreme</td>
-              <td>223</td>
-              <td>High thermal envelope profile available on select models.</td>
+              <td><code>Extreme</code> = 223</td>
+              <td>224</td>
+              <td>Higher thermal envelope on models that report support for it.</td>
             </tr>
             <tr>
-              <td><code>GodMode</code></td>
               <td>Custom Mode</td>
-              <td>254</td>
-              <td>User-customized power thresholds, thermal ceilings, and fan tables.</td>
+              <td><code>GodMode</code> = 254</td>
+              <td>255</td>
+              <td>User-defined power limits, thermal ceilings, and fan tables.</td>
             </tr>
           </tbody>
         </table>
+        <p>
+          The value written to the EC is the internal state plus one, applied through the <code>SetSmartFanMode</code> WMI call (writing 224 for Extreme). In Actions, the active power mode is exposed through the <code>LLT_POWER_MODE</code> environment variable with values 1 (Quiet), 2 (Balance), 3 (Performance), 223 (Extreme), and 255 (Custom).
+        </p>
+        <ul>
+          <li>Performance, Extreme, and Custom Mode are refused while the AC adapter is disconnected, because power limits are not applied correctly on battery power.</li>
+          <li>Custom Mode is skipped by the Fn+Q cycle unless the model exposes the <strong>Switch to Custom Mode with Fn+Q</strong> toggle in <strong>Settings -> Power</strong>.</li>
+          <li>Extreme and Custom Mode are only offered on models whose firmware reports support for them.</li>
+        </ul>
 
         <h3>Custom Mode Configuration</h3>
         <p>
-          On laptops that support Custom Mode (GodMode), the application provides granular configuration of hardware limits:
+          On laptops that support Custom Mode, the application provides granular configuration of hardware limits. Not all of these are available on every model:
         </p>
         <ul>
           <li><strong>CPU Long Term Power Limit (PL1):</strong> Sustained CPU power limit in watts.</li>
@@ -228,6 +269,7 @@
           <li><strong>CPU Temperature Limit:</strong> Thermal throttling ceiling for the processor.</li>
           <li><strong>GPU Configurable TGP:</strong> Target Graphics Power for discrete NVIDIA GPUs.</li>
           <li><strong>GPU Dynamic Boost:</strong> Additional cross-load wattage allocated from CPU to GPU under gaming workloads.</li>
+          <li><strong>GPU Temperature Limit:</strong> Thermal ceiling for the discrete GPU where the firmware exposes it.</li>
         </ul>
       </section>
 
@@ -238,27 +280,44 @@
           Battery parameters communicate with the battery charge controller through ACPI and driver interfaces.
         </p>
         
-        <h3>Conservation Mode</h3>
+        <h3>Battery Charge Mode</h3>
         <p>
-          Limits maximum battery charge percentage to reduce degradation when connected to AC power for extended durations.
+          The charge mode is a single setting with three values:
         </p>
         <ul>
-          <li><strong>2021 and earlier models:</strong> Firmware threshold is fixed at 60%.</li>
-          <li><strong>2022 and later models:</strong> Firmware threshold is fixed at 80%.</li>
+          <li><strong>Normal:</strong> Charges to 100%.</li>
+          <li><strong>Rapid Charge:</strong> Charges at the highest supported rate to reach a usable level quickly.</li>
+          <li><strong>Conservation:</strong> Stops charging at a firmware-defined threshold to reduce degradation on constant AC power.</li>
+        </ul>
+        <p>
+          Because these values are mutually exclusive, enabling Rapid Charge or Conservation Mode replaces the other one.
+        </p>
+        <ul>
+          <li><strong>2021 and earlier models:</strong> Conservation Mode threshold is fixed at 60%.</li>
+          <li><strong>2022 and later models:</strong> Conservation Mode threshold is fixed at 80%.</li>
         </ul>
         <div class="callout note">
           <div class="callout-title">Firmware Threshold Limitation</div>
           <p>
-            The Conservation Mode threshold percentage is hardcoded in the laptop Embedded Controller (EC) firmware. It cannot be altered by software on standard Legion and LOQ models.
+            The Conservation Mode percentage is set by the laptop Embedded Controller (EC) firmware. It cannot be altered by software on standard Legion and LOQ models.
           </p>
         </div>
 
-        <h3>Additional Charging Features</h3>
-        <ul>
-          <li><strong>Rapid Charge:</strong> Accelerates charging rate to reach high capacity quickly. Mutually exclusive with Conservation Mode.</li>
-          <li><strong>Night Charge:</strong> Slows charge rate overnight to reduce heat generation during charging cycles.</li>
-          <li><strong>Dual Thresholds:</strong> On ThinkBook and enterprise-aligned devices supporting the <code>PWRMGRV</code> interface, customizable Charge Start and Charge Stop percentages are exposed.</li>
-        </ul>
+        <h3>Overnight Battery Charging</h3>
+        <p>
+          When enabled, the device delays part of the charge while plugged in overnight, holding at around 80% and finishing to 100% by the time the laptop is used in the morning.
+        </p>
+
+        <h3>Charge Threshold</h3>
+        <p>
+          On devices whose Lenovo power management driver exposes the <code>PWRMGRV</code> charge threshold keys, LLT offers a separate <strong>Charge Threshold</strong> control with configurable <strong>Start</strong> and <strong>Stop</strong> percentages. The control is separate from the Battery Charge Mode setting.
+        </p>
+        <div class="callout warning">
+          <div class="callout-title">Delayed Effect</div>
+          <p>
+            A new threshold takes effect after the battery is unplugged and drops below the configured stop value.
+          </p>
+        </div>
       </section>
 
       <!-- Fan Curves -->
@@ -269,35 +328,43 @@
         </p>
         <ul>
           <li><strong>10-Point Fan Table:</strong> Configure fan speeds across temperature steps for CPU and GPU sensors.</li>
-          <li><strong>Full Fan Speed Mode:</strong> Overrides active curves to immediately drive fans to 100% capacity.</li>
+          <li><strong>Full Fan Speed:</strong> Overrides active curves and drives the fans to 100% until disabled.</li>
         </ul>
         <div class="callout warning">
           <div class="callout-title">Hardware Support Notice</div>
           <p>
-            Custom fan curves cannot be applied to Quiet, Balance, or Performance modes, as those profiles use immutable firmware fan tables stored in the BIOS. Fan control is not available on Generation 6 (2021) and older models due to lack of EC register support.
+            Custom fan curves cannot be applied to Quiet, Balance, or Performance modes, because those profiles use firmware fan tables stored in the BIOS. Fan control is not available on Generation 6 (2021) and older models.
           </p>
         </div>
       </section>
 
       <!-- GPU & Display -->
       <section id="gpu-display">
-        <h2>GPU Operating Modes & Display</h2>
+        <h2>GPU Working Modes & Display</h2>
         <p>
-          Controls the hardware multiplexer (MUX) and discrete GPU power states:
+          The <strong>GPU Working Mode</strong> control switches the hardware multiplexer and discrete GPU power state. Which options are offered depends on the capabilities reported by the firmware:
         </p>
         <ul>
-          <li><strong>dGPU Only:</strong> Internal display connects directly to the discrete GPU for lowest latency. Requires system restart to change.</li>
-          <li><strong>Hybrid:</strong> Internal display connects to the integrated GPU. Discrete GPU powers down when idle to conserve battery.</li>
-          <li><strong>Hybrid iGPU-Only (Gen 7 and newer):</strong> Disconnects the discrete GPU electrically from the bus to eliminate any possibility of background power draw on battery.</li>
-          <li><strong>Hybrid Auto:</strong> Automatically engages Hybrid iGPU-Only mode on battery power and reconnects the dGPU when connected to AC power.</li>
-          <li><strong>UMA Mode:</strong> Dedicated iGPU operation mode supported on select AMD configurations.</li>
+          <li><strong>dGPU:</strong> Only the discrete GPU drives the internal display. Switching to and from this mode requires a restart.</li>
+          <li><strong>Hybrid:</strong> Both GPUs are enabled and Windows switches between them as needed.</li>
+          <li><strong>Hybrid-iGPU:</strong> Only the integrated GPU is used, which minimizes power draw and noise. It takes effect once the discrete GPU stops working.</li>
+          <li><strong>Hybrid-Auto:</strong> Uses the integrated GPU on battery and both GPUs on AC power. Connecting a non-standard adapter switches the system to Hybrid-iGPU Only.</li>
+          <li><strong>UMA:</strong> Unified memory mode, switched through the BIOS setting on models that expose it.</li>
         </ul>
+        <div class="callout note">
+          <div class="callout-title">Restart Required</div>
+          <p>
+            Mode changes can request a restart. LLT asks before restarting, and the switch is only complete after the system has rebooted.
+          </p>
+        </div>
 
         <h3>Display Controls</h3>
         <ul>
-          <li><strong>Refresh Rate:</strong> Toggle between high refresh rates (165Hz, 240Hz) and battery-saving refresh rates (60Hz).</li>
-          <li><strong>Display Overdrive:</strong> Lowers panel response times to eliminate ghosting during high framerate gaming.</li>
-          <li><strong>Auto Color Management:</strong> Toggles Windows Auto Color Management (ACM) on compatible HDR displays.</li>
+          <li><strong>Refresh Rate:</strong> Switch between the refresh rates the panel reports, and keep unused rates out of the Fn+R cycle with <strong>Exclude Refresh Rates</strong>.</li>
+          <li><strong>Resolution:</strong> Change the internal display resolution.</li>
+          <li><strong>Display Overdrive:</strong> Reduces panel response time to limit ghosting on supported panels.</li>
+          <li><strong>Auto Color Management:</strong> Toggles Windows Auto Color Management where the display supports it.</li>
+          <li><strong>HDR:</strong> Enables or disables HDR on supported panels.</li>
         </ul>
       </section>
 
@@ -305,66 +372,166 @@
       <section id="lighting">
         <h2>Keyboard & RGB Lighting</h2>
         <p>
-          The application interfaces natively with keyboard controllers without requiring Corsair iCue or Vantage:
+          The application talks to the keyboard controller directly and does not need any Lenovo suite for lighting control:
         </p>
         <ul>
-          <li><strong>Spectrum Per-Key RGB:</strong> Configure individual key colors, brightness levels, and hardware presets.</li>
-          <li><strong>4-Zone RGB:</strong> Configure color assignments and effects across 4 keyboard zones.</li>
-          <li><strong>Chassis Lighting:</strong> Manage rear port illumination and lid panel logo lighting.</li>
-          <li><strong>White Backlit Keyboards:</strong> Manage 1-level and 3-level white keyboard backlights.</li>
-          <li><strong>Windows Dynamic Lighting:</strong> Exposes keyboard hardware to Windows 11 Dynamic Lighting (LampArray API).</li>
+          <li><strong>Spectrum Per-Key RGB:</strong> Individual key colors, effects, brightness, and hardware profiles.</li>
+          <li><strong>4-Zone RGB:</strong> Color and effect assignments across four keyboard zones.</li>
+          <li><strong>1-Level and 3-Level White Backlight:</strong> Brightness control for white backlit keyboards.</li>
+          <li><strong>Chassis Lighting:</strong> Rear port illumination and lid panel logo lighting.</li>
         </ul>
+        <p>
+          Keyboards that require Corsair iCUE are not supported. Run <code>--force-disable-rgbkb</code>, <code>--force-disable-spectrumkb</code>, or <code>--force-disable-lenovolighting</code> when another RGB application has to own the hardware.
+        </p>
+
+        <h3>Windows Dynamic Lighting</h3>
+        <p>
+          On supported keyboards, <code>--enable-lamp-array</code> exposes the keyboard to Windows 11 Dynamic Lighting through the Lamp Array API. While this is enabled, the Keyboard page is replaced by a Lamp Array page and LLT does not use its own per-key or zone controls.
+        </p>
       </section>
 
       <!-- Actions & Automation -->
       <section id="actions">
         <h2>Actions & Automation Triggers</h2>
         <p>
-          Actions allow running automated configuration sequences when system events occur:
+          The <strong>Actions</strong> page holds two kinds of pipeline. <strong>Actions</strong> run automatically when their trigger matches, and are evaluated from top to bottom whenever state changes. <strong>Quick Actions</strong> have no trigger and run manually from the tray menu, from Smart Keys, or from the CLI.
+        </p>
+        <p>
+          Available triggers:
         </p>
         <ul>
-          <li><strong>Power State:</strong> AC adapter connected, AC adapter disconnected, low-wattage USB-C charger detected.</li>
-          <li><strong>Battery State:</strong> Charge percentage drops below or rises above specified values.</li>
-          <li><strong>Lid & Display:</strong> Laptop lid opened or closed; external display connected or disconnected.</li>
-          <li><strong>Network State:</strong> Connected or disconnected from specified Wi-Fi SSID.</li>
-          <li><strong>Process & Gaming:</strong> Detects when a game starts or closes (via GPU activity, Xbox Game Bar GameConfigStore, or Windows Game Mode).</li>
-          <li><strong>Time Schedule:</strong> Sunrise, sunset, fixed time, or periodic execution intervals.</li>
+          <li><strong>Power:</strong> AC adapter connected or disconnected, low-wattage adapter connected.</li>
+          <li><strong>Battery:</strong> Charge percentage drops below or rises above a configured value.</li>
+          <li><strong>Lid & Displays:</strong> Lid opened or closed, displays turned on or off, external display connected or disconnected, HDR on or off.</li>
+          <li><strong>Network:</strong> Wi-Fi connected to a named SSID or disconnected.</li>
+          <li><strong>Processes:</strong> A process starts or stops, including game detection.</li>
+          <li><strong>Time:</strong> A fixed time, a time range, sunrise or sunset, or a periodic interval.</li>
+          <li><strong>Session:</strong> Session locked or unlocked, user active or inactive.</li>
+          <li><strong>State:</strong> Power mode, GPU Working Mode, ITS Mode, or Custom Mode preset changed.</li>
+          <li><strong>Lifecycle:</strong> Application startup, resume from sleep, device connected or disconnected.</li>
         </ul>
+        <p>
+          Each pipeline can also run multiple steps in sequence, including delays, notifications, application launches, and hardware changes.
+        </p>
+
+        <h3>Game Detection</h3>
+        <p>
+          Game detection is configured in <strong>Settings -> App Behavior</strong> and offers these modes:
+        </p>
+        <ul>
+          <li><strong>Automatic:</strong> Combines the methods below.</li>
+          <li><strong>Discrete GPU:</strong> Reacts when a process starts using the discrete GPU.</li>
+          <li><strong>Known Games:</strong> Reacts to games registered with Windows.</li>
+          <li><strong>Game Mode:</strong> Reacts when Windows activates Game Mode for the foreground process.</li>
+          <li><strong>Manual:</strong> Reacts to an explicit list of executable names.</li>
+        </ul>
+        <p>
+          Actions, macros, and game triggers only run while LLT is running.
+        </p>
+      </section>
+
+      <!-- Smart Keys -->
+      <section id="smart-keys">
+        <h2>Smart Keys & Fn Shortcuts</h2>
+        <p>
+          <strong>Settings -> Smart Keys</strong> lists the Fn hotkeys that LLT can intercept and lets each one run one or more Quick Actions instead of its default behavior.
+        </p>
+        <ul>
+          <li><strong>Key Discovery:</strong> Press an Fn combination to find out whether it can be added as a Smart Key.</li>
+          <li><strong>Mode:</strong> Choose how the key responds, including single press and double press.</li>
+          <li><strong>Label and icon:</strong> Rename a key and change the icon used in the list.</li>
+          <li><strong>Hidden keys:</strong> Right-click a key to hide it, and show hidden keys again from the same window.</li>
+        </ul>
+        <div class="callout note">
+          <div class="callout-title">Lenovo Hotkeys Must Be Disabled</div>
+          <p>
+            While Lenovo Hotkeys is running it owns the Fn shortcuts, so Smart Keys, Key Discovery, and Exclude Refresh Rates have no effect. Disable it from <strong>Settings -> Software Control</strong>.
+          </p>
+        </div>
+      </section>
+
+      <!-- On-Screen Display -->
+      <section id="osd">
+        <h2>On-Screen Display & Sensors</h2>
+        <p>
+          The OSD is a floating overlay with live sensor readings. It is configured in <strong>Settings -> App Behavior</strong> through the <strong>On-Screen Display</strong> card, and it can also be shown or hidden from an Action.
+        </p>
+        <ul>
+          <li><strong>Overlay style:</strong> A compact bar or a full panel.</li>
+          <li><strong>Sensor items:</strong> Game metrics (FPS, 1% low, frame time), CPU (clock, utilization, temperature, power, voltage, fan), GPU (clock, utilization, temperature, VRAM utilization, VRAM temperature, power, fan), memory utilization and temperature, disk temperatures, and motherboard (PCH) temperature and fan.</li>
+          <li><strong>Thresholds:</strong> Warning and critical colors for temperature, usage, and frame rate, including a minimum acceptable FPS and a maximum allowed gap between average and 1% low FPS.</li>
+          <li><strong>Appearance:</strong> Background color and opacity, font size, corner radius, and separate colors for category, label, value, warning, and critical states.</li>
+          <li><strong>Placement:</strong> Refresh interval, snapping threshold, position lock, and per-display positions that survive restarts.</li>
+        </ul>
+        <p>
+          The sensor values come from the hardware sensor backend. Enable <strong>Hardware Sensors</strong> in <strong>Settings -> App Behavior</strong> to poll detailed temperatures, frequencies, and power limits, and use the Dashboard to build your own set of sensor readouts.
+        </p>
       </section>
 
       <!-- CLI -->
       <section id="cli">
         <h2>Command Line Interface (llt.exe)</h2>
         <p>
-          The CLI utility is located in the installation directory as <code>llt.exe</code>. It allows controlling toolkit functions via scripts, batch files, or terminal shortcuts.
+          The CLI utility is located in the installation directory as <code>llt.exe</code>. It allows controlling toolkit functions from scripts, batch files, or terminal shortcuts, and it does not need to be run as Administrator.
         </p>
         <p>
-          For the CLI to function, the main application must be running in the background, and CLI support must be enabled in <strong>Settings -> Integrations</strong>.
+          For the CLI to function, the main application must be running, and <strong>CLI</strong> must be enabled in <strong>Settings -> Integrations</strong>. The same page can add <code>llt.exe</code> to the user <code>PATH</code>.
         </p>
 
         <div class="code-block">
-          <code># List all available hardware features
+          <code># List supported features and read a value
 llt feature --list
-
-# Read current power mode
 llt feature get power-mode
 
-# Set power mode to Performance
+# List the accepted values, then set one
+llt feature set power-mode --list
 llt feature set power-mode performance
 
-# Set 4-zone RGB preset
+# Set Fn Lock and white backlight level
+llt feature set fn-lock on
+llt feature set white-keyboard-backlight low
+
+# 4-zone RGB preset (1 to 4)
 llt rgb set 1
 
-# Execute a configured Quick Action by name
-llt quickAction "Disable dGPU"</code>
+# Spectrum profile (0 to 6) and brightness (0 to 9)
+llt spectrum profile set 1
+llt spectrum brightness set 5
+
+# List and run a Quick Action by name
+llt quickAction --list
+llt quickAction "My Quick Action"</code>
         </div>
+
+        <h3>Commands</h3>
+        <ul>
+          <li><code>llt feature --list</code>, <code>llt feature get &lt;name&gt;</code>, <code>llt feature set &lt;name&gt; --list</code>, <code>llt feature set &lt;name&gt; &lt;value&gt;</code></li>
+          <li><code>llt quickAction --list</code>, <code>llt quickAction &lt;name&gt;</code></li>
+          <li><code>llt rgb get</code>, <code>llt rgb set &lt;preset&gt;</code>, where the preset is 1 to 4.</li>
+          <li><code>llt spectrum profile get</code>, <code>llt spectrum profile set &lt;profile&gt;</code>, where the profile is 0 to 6.</li>
+          <li><code>llt spectrum brightness get</code>, <code>llt spectrum brightness set &lt;brightness&gt;</code>, where brightness is 0 to 9.</li>
+        </ul>
+        <p>
+          Short aliases are accepted: <code>f</code> for <code>feature</code>, <code>qa</code> for <code>quickAction</code>, <code>r</code> for <code>rgb</code>, <code>g</code> for <code>get</code>, <code>s</code> for <code>set</code> or <code>spectrum</code> depending on its position, <code>p</code> for <code>profile</code>, and <code>b</code> for <code>brightness</code>.
+        </p>
+
+        <h3>Feature Names</h3>
+        <p>
+          Feature names are reported by <code>llt feature --list</code> and only include what the current machine supports:
+        </p>
+        <ul>
+          <li><code>always-on-usb</code>, <code>battery</code>, <code>battery-night-charge</code>, <code>flip-to-start</code>, <code>fn-lock</code>, <code>hdr</code></li>
+          <li><code>hybrid-mode</code>, <code>instant-boot</code>, <code>microphone</code>, <code>one-level-white-keyboard-backlight</code></li>
+          <li><code>over-drive</code>, <code>panel-logo-backlight</code>, <code>ports-backlight</code>, <code>power-mode</code></li>
+          <li><code>refresh-rate</code>, <code>resolution</code>, <code>speaker</code>, <code>touchpad-lock</code>, <code>win-key</code>, <code>white-keyboard-backlight</code></li>
+        </ul>
       </section>
 
       <!-- CLI Arguments -->
       <section id="arguments">
         <h2>CLI Arguments Reference</h2>
         <p>
-          Advanced startup arguments can be passed to <code>Lenovo Legion Toolkit.exe</code> directly or added to <code>%LOCALAPPDATA%\LenovoLegionToolkit\args.txt</code> (one argument per line):
+          Advanced startup arguments can be passed to <code>Lenovo Legion Toolkit.exe</code> directly, toggled in <strong>Settings -> App Behavior -> Arguments</strong>, or added to <code>%LOCALAPPDATA%\LenovoLegionToolkit\args.txt</code> with one argument per line.
         </p>
         <table class="wiki-table">
           <thead>
@@ -376,23 +543,27 @@ llt quickAction "Disable dGPU"</code>
           <tbody>
             <tr>
               <td><code>--trace</code></td>
-              <td>Enables verbose diagnostic logging to the log directory.</td>
-            </tr>
-            <tr>
-              <td><code>--minimized</code></td>
-              <td>Starts the application directly minimized to the system tray.</td>
+              <td>Enables verbose logging to <code>%LOCALAPPDATA%\LenovoLegionToolkit\log</code>.</td>
             </tr>
             <tr>
               <td><code>--debug</code></td>
-              <td>Enables debug mode and the embedded C# Script Console.</td>
+              <td>Enables debug mode and the embedded C# Script Console. Unsupported configuration.</td>
+            </tr>
+            <tr>
+              <td><code>--minimized</code></td>
+              <td>Starts the application minimized to the system tray.</td>
+            </tr>
+            <tr>
+              <td><code>--disable-tray-tooltip</code></td>
+              <td>Disables the tray icon tooltip.</td>
             </tr>
             <tr>
               <td><code>--skip-compat-check</code></td>
-              <td>Bypasses startup model checks (used after motherboard replacements with unwritten serials).</td>
+              <td>Skips the startup model check, useful after a motherboard replacement with unwritten serials. Unsupported configuration.</td>
             </tr>
             <tr>
               <td><code>--allow-all-power-modes-on-battery</code></td>
-              <td>Allows selecting Performance and Custom modes while running on battery.</td>
+              <td>Allows Performance, Extreme, and Custom Mode while running on battery. Power limits are not guaranteed to apply correctly, so this configuration is unsupported.</td>
             </tr>
             <tr>
               <td><code>--force-disable-rgbkb</code></td>
@@ -404,33 +575,86 @@ llt quickAction "Disable dGPU"</code>
             </tr>
             <tr>
               <td><code>--force-disable-lenovolighting</code></td>
-              <td>Disables logo, rear port, and white backlight controls.</td>
+              <td>Disables panel logo, rear port, and white backlight control.</td>
             </tr>
             <tr>
               <td><code>--enable-lamp-array</code></td>
-              <td>Enables Windows Dynamic Lighting integration for compatible keyboards.</td>
+              <td>Exposes supported keyboards to Windows 11 Dynamic Lighting through the Lamp Array API.</td>
             </tr>
             <tr>
               <td><code>--experimental-gpu-working-mode</code></td>
-              <td>Switches GPU Working Mode logic to the LegionZone method.</td>
+              <td>Switches GPU Working Mode to the experimental Legion Zone method. Unsupported configuration.</td>
             </tr>
             <tr>
               <td><code>--experimental-its-mode</code></td>
-              <td>Enables experimental ITS mode driver for ThinkBook systems.</td>
+              <td>Uses the experimental ITS mode driver on ThinkBook devices. Unsupported configuration.</td>
+            </tr>
+            <tr>
+              <td><code>--disable-conflicting-software-warning</code></td>
+              <td>Hides the banners that warn about conflicting Lenovo software.</td>
             </tr>
             <tr>
               <td><code>--disable-update-checker</code></td>
-              <td>Disables built-in update checks (useful when managing updates via Scoop or WinGet).</td>
+              <td>Disables built-in update checks, useful when updates are managed by Scoop, WinGet, or similar.</td>
+            </tr>
+            <tr>
+              <td><code>--proxy-url=</code></td>
+              <td>Proxy server URL used for network requests such as updates and package downloads.</td>
+            </tr>
+            <tr>
+              <td><code>--proxy-username=</code></td>
+              <td>Proxy user name, if the proxy requires authentication.</td>
+            </tr>
+            <tr>
+              <td><code>--proxy-password=</code></td>
+              <td>Proxy password, if the proxy requires authentication.</td>
+            </tr>
+            <tr>
+              <td><code>--proxy-allow-all-certs</code></td>
+              <td>Relaxes certificate checks for HTTPS connections made through the proxy.</td>
             </tr>
           </tbody>
         </table>
+      </section>
+
+      <!-- Downloads & Device Information -->
+      <section id="downloads">
+        <h2>Downloads & Device Information</h2>
+
+        <h3>Lenovo Packages</h3>
+        <p>
+          The <strong>Downloads</strong> page lists driver and software packages that Lenovo marks as compatible with the current machine and downloads them directly, without a Lenovo suite:
+        </p>
+        <ul>
+          <li><strong>Machine Type and Operating System</strong> selectors, which drive the package list.</li>
+          <li><strong>Primary source</strong>, the same catalog Lenovo Vantage uses, and <strong>Secondary source</strong>, the Lenovo PC Support catalog.</li>
+          <li><strong>Show updates only</strong>, to hide packages that are already at the newest version, plus sorting by name, category, or date.</li>
+          <li><strong>Download folder</strong> selection and a shortcut to open it.</li>
+        </ul>
+
+        <h3>Device Information & Warranty</h3>
+        <p>
+          Clicking the device name in the title bar opens the <strong>Device Information</strong> window, displaying the machine type model (MTM), serial number, BIOS version, and warranty coverage status. Warranty start date, expiration date, and remaining days are queried directly from Lenovo: global models use the Lenovo PC Support API, while Chinese models and Chinese-language installations use the Lenovo China support API.
+        </p>
+      </section>
+
+      <!-- Known Issues -->
+      <section id="known-issues">
+        <h2>Known Hardware Caveats</h2>
+        <ul>
+          <li><strong>Custom Mode BIOS minimums:</strong> G9CN 24 or higher, GKCN 46 or higher, H1CN 39 or higher, HACN 31 or higher, and HHCN 20 or higher are required for Custom Mode to work correctly.</li>
+          <li><strong>GKCN54WW and lower:</strong> Some lighting features are disabled because that BIOS version can cause a blue screen.</li>
+          <li><strong>Riot Vanguard:</strong> The DRM used by games such as Valorant is known to break RGB control. If RGB settings are missing, prevent Vanguard from starting with Windows or uninstall it.</li>
+          <li><strong>Smart Fn Lock stutter:</strong> On some BIOS versions toggling Fn Lock causes a brief stutter. Disabling a BIOS option named like "Fool proof Fn Lock" has resolved it on affected machines.</li>
+          <li><strong>GPU overclock recovery:</strong> If an unstable GPU overclock prevents booting, disable GPU overclocking in the BIOS or delete <code>gpu_oc.json</code> from <code>%LOCALAPPDATA%\LenovoLegionToolkit</code> in Safe Mode.</li>
+        </ul>
       </section>
 
       <!-- Organization Repositories -->
       <section id="ecosystem-repos">
         <h2>Organization Repositories & Role in LLT</h2>
         <p>
-          The LenovoLegionToolkit-Team organization maintains several focused open-source repositories that provide the underlying hardware abstractions, telemetry interfaces, and extension mechanisms for the main application.
+          The LenovoLegionToolkit-Team organization maintains several focused open-source repositories that provide the underlying hardware abstractions, telemetry interfaces, and extension mechanisms for the main application. The hardware wrappers are maintained forks of the upstream projects.
         </p>
 
         <table class="wiki-table">
@@ -445,47 +669,47 @@ llt quickAction "Disable dGPU"</code>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit" target="_blank" rel="noopener"><strong>LenovoLegionToolkit</strong></a></td>
               <td>Main Desktop Application</td>
-              <td>Host WPF application, user interface, Embedded Controller (EC) drivers, automation processor, and tray coordinator.</td>
+              <td>Host WPF application, user interface, Embedded Controller (EC) features, automation processor, and tray coordinator.</td>
             </tr>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Plugins" target="_blank" rel="noopener"><strong>LenovoLegionToolkit-Plugins</strong></a></td>
               <td>Modular Plugin Library</td>
-              <td>Provides DLL-based extension interfaces allowing modular capabilities (such as custom fan curve extensions and integrations) without altering core codebase.</td>
+              <td>DLL-based plugins that add pages and behavior to the host application, starting with the advanced CustomFanCurve algorithm.</td>
             </tr>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/HarmonyBridge" target="_blank" rel="noopener"><strong>HarmonyBridge</strong></a></td>
               <td>Runtime Method Patching</td>
-              <td>Provides non-intrusive runtime method patching for advanced hook workflows and internal controller interception.</td>
+              <td>Plugin module that gives other plugins runtime method patching through the Harmony library.</td>
             </tr>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/LibreHardwareMonitor" target="_blank" rel="noopener"><strong>LibreHardwareMonitor</strong></a></td>
               <td>Hardware Sensor Telemetry</td>
-              <td>Specialized fork providing low-level hardware sensor polling for CPU, GPU, memory, and PCH temperatures, power limits, and fan RPM readouts.</td>
+              <td>Maintained fork that provides sensor polling for CPU, GPU, memory, and PCH temperatures, power limits, and fan speeds.</td>
             </tr>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/NvAPIWrapper" target="_blank" rel="noopener"><strong>NvAPIWrapper</strong></a></td>
               <td>NVIDIA Hardware Control</td>
-              <td>Managed .NET wrapper for the NVIDIA API, powering GPU clock offsets, TGP power targets, P-state management, and discrete GPU power-down verification.</td>
+              <td>Managed wrapper for the NVIDIA API, used for GPU clock offsets, TGP targets, P-state handling, and discrete GPU power state checks.</td>
             </tr>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/WindowsDisplayAPI" target="_blank" rel="noopener"><strong>WindowsDisplayAPI</strong></a></td>
               <td>Windows CCD Display Control</td>
-              <td>Managed .NET wrapper for Windows Connecting and Configuring Displays (CCD) APIs, handling dynamic refresh rate toggling, resolution scaling, and display topologies.</td>
+              <td>Managed wrapper for the Windows Connecting and Configuring Displays (CCD) APIs, used for refresh rate changes, resolution changes, and display topology queries.</td>
             </tr>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/PresentMonFps" target="_blank" rel="noopener"><strong>PresentMonFps</strong></a></td>
               <td>Frame Rate Metrics Engine</td>
-              <td>Managed .NET wrapper for Intel PresentMon, capturing ETW presentation events to calculate real-time framerate and frame-time data for the On-Screen Display (OSD).</td>
+              <td>Managed wrapper for Intel PresentMon, used to produce the frame rate and frame time values shown in the OSD.</td>
             </tr>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/ZenStates-Core" target="_blank" rel="noopener"><strong>ZenStates-Core</strong></a></td>
               <td>AMD Platform Control</td>
-              <td>Low-level register interop library providing P-state and power state communication on AMD Ryzen based laptops.</td>
+              <td>Low-level register and SMU interop library used for AMD Ryzen power limits, Curve Optimizer, and Curve Shaper settings.</td>
             </tr>
             <tr>
               <td><a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Team.github.io" target="_blank" rel="noopener"><strong>LenovoLegionToolkit-Team.github.io</strong></a></td>
               <td>Documentation & Web Portal</td>
-              <td>Hosts the public showcase landing page, user manual, and technical wiki documentation.</td>
+              <td>Hosts the public landing page and this documentation.</td>
             </tr>
           </tbody>
         </table>
@@ -495,15 +719,20 @@ llt quickAction "Disable dGPU"</code>
       <section id="plugins-extensibility">
         <h2>Plugins & Extensibility</h2>
         <p>
-          The toolkit supports a plugin architecture through the <code>LenovoLegionToolkit-Plugins</code> repository. Plugins are compiled as independent <code>.dll</code> assemblies placed in the application's plugin directory.
+          LLT discovers plugins at startup by scanning <code>%LOCALAPPDATA%\LenovoLegionToolkit\Plugins</code>. An assembly counts as a plugin when it contains a public class that implements <code>LenovoLegionToolkit.Lib.Station.Core.IExtensionProvider</code>.
         </p>
+        <ul>
+          <li><strong>Single file plugin:</strong> Place <code>&lt;Name&gt;.dll</code> directly in the Plugins folder.</li>
+          <li><strong>Folder plugin:</strong> Create a subfolder, for example <code>Plugins\CustomFanCurve</code>, and place <code>CustomFanCurve.dll</code> inside it.</li>
+          <li><strong>Shared dependencies:</strong> Place assemblies used by more than one plugin in <code>Plugins\Dependency</code>.</li>
+        </ul>
         <p>
-          This modular architecture allows contributors to develop specialized fan curve algorithms, third-party lighting integrations, or custom hardware monitors without recompiling or destabilizing the core application.
+          A plugin registers navigation pages and writes to its own log file through the extension context. Plugin logs are stored as <code>%LOCALAPPDATA%\LenovoLegionToolkit\log\plugin_&lt;pluginId&gt;.log</code>.
         </p>
         <div class="callout note">
           <div class="callout-title">Developing Plugins</div>
           <p>
-            Plugin development guidelines, interfaces, and sample implementations are maintained in the <a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Plugins" target="_blank" rel="noopener" style="color: var(--accent-red); font-weight: 600;">LenovoLegionToolkit-Plugins</a> repository.
+            A plugin is a .NET class library targeting <code>net9.0-windows10.0.26100</code> that references <code>LenovoLegionToolkit.Lib</code> with <code>Private=false</code> and <code>ExcludeAssets=runtime</code> so core assemblies are not bundled. Building the plugin projects requires the <code>LLT_SOURCE</code> environment variable pointing at a local clone of the main repository. Guidelines and sample implementations live in the <a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit-Plugins" target="_blank" rel="noopener">LenovoLegionToolkit-Plugins</a> repository.
           </p>
         </div>
       </section>
@@ -512,40 +741,49 @@ llt quickAction "Disable dGPU"</code>
       <section id="antivirus">
         <h2>Security Alerts & Code Signing</h2>
         <p>
-          Because Lenovo Legion Toolkit interacts directly with low-level Windows kernel drivers (WMI, EC register drivers, low-level keyboard hooks), generic antivirus scanners may occasionally produce false-positive heuristic alerts.
+          Because Lenovo Legion Toolkit interacts directly with low-level Windows APIs, drivers, and keyboard hooks, generic antivirus scanners may occasionally produce false-positive heuristic alerts.
         </p>
         <p>
           All official release builds:
         </p>
         <ul>
-          <li>Are built transparently from open source via public GitHub Actions runners.</li>
-          <li>Are cryptographically signed with an Authenticode project certificate.</li>
-          <li>Include full verifiable source code available for independent security audit.</li>
+          <li>Are built from open source by public GitHub Actions runners.</li>
+          <li>Are signed with the project Authenticode certificate, which the built-in updater validates before installing an update.</li>
+          <li>Publish full, verifiable source code for independent audit.</li>
         </ul>
+        <p>
+          The project certificate lets the updater confirm that an installer came from the official build process. It is not issued by a commercial certificate authority, so SmartScreen and similar reputation systems may still warn on a new release.
+        </p>
       </section>
 
       <!-- Diagnostic Logs -->
       <section id="diagnostics">
         <h2>Collecting Diagnostic Logs</h2>
         <p>
-          When reporting issues or requesting compatibility investigation, diagnostic logs provide necessary hardware register outputs.
+          When reporting issues or requesting compatibility investigation, diagnostic logs provide the hardware register and state outputs that are needed to help.
         </p>
         
         <h3>Enabling Logs via Settings (Standard Method)</h3>
         <ol>
-          <li>Open <strong>Settings</strong>.</li>
-          <li>Toggle <strong>Enable logging</strong>.</li>
+          <li>Open <strong>Settings -> App Behavior</strong>.</li>
+          <li>Enable <strong>Enable Logging</strong>.</li>
           <li>Reproduce the issue or hardware condition.</li>
-          <li>Log files are saved to: <code>%LOCALAPPDATA%\LenovoLegionToolkit\log</code></li>
+          <li>Collect the files from <code>%LOCALAPPDATA%\LenovoLegionToolkit\log</code>.</li>
         </ol>
 
         <h3>Startup Logging (For Startup Crashes)</h3>
         <ol>
           <li>Ensure the application is completely closed and not in the system tray.</li>
           <li>Open the Windows Run dialog (Win + R).</li>
-          <li>Execute: <code>"%LOCALAPPDATA%\Programs\LenovoLegionToolkit\Lenovo Legion Toolkit.exe" --trace</code></li>
-          <li>Reproduce the condition, close the app, and collect files from <code>%LOCALAPPDATA%\LenovoLegionToolkit\log</code>.</li>
+          <li>Execute: <code>"C:\Program Files\LenovoLegionToolkit\Lenovo Legion Toolkit.exe" --trace</code></li>
+          <li>The title bar should show <code>[LOGGING ENABLED]</code>. Reproduce the condition, close the app, and collect files from <code>%LOCALAPPDATA%\LenovoLegionToolkit\log</code>.</li>
         </ol>
+        <p>
+          If LLT was installed to a different folder, adjust the executable path accordingly.
+        </p>
+        <p>
+          Attach the collected files to a new issue at <a href="https://github.com/LenovoLegionToolkit-Team/LenovoLegionToolkit/issues" target="_blank" rel="noopener">GitHub Issues</a>, together with the full model name and a short description of which features work and which do not.
+        </p>
       </section>
 
     </article>
@@ -557,7 +795,7 @@ llt quickAction "Disable dGPU"</code>
     <div class="container">
       <div class="footer-bottom">
         <div>&copy; 2026 LenovoLegionToolkit-Team. Released under GNU General Public License v3.0. Not affiliated with Lenovo.</div>
-        <div><a href="../" style="color: var(--accent-red); text-decoration: none;">Return to Home</a></div>
+        <div><a href="../">Return to Home</a></div>
       </div>
     </div>
   </footer>
